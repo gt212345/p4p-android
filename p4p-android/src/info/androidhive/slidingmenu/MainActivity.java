@@ -68,7 +68,7 @@ public class MainActivity extends Activity {
 		client = new Thread(clientSocket);
 		client.start();
 		Log.w("client", "start");
-		mTitle = mDrawerTitle = getTitle();
+		mTitle = mDrawerTitle = getTitle();//
 		getActionBar().setHomeButtonEnabled(false);
 		// load slide menu items
 		navMenuTitles = prodept;// 系所
