@@ -28,7 +28,7 @@ public class WelcomeActivity extends Activity {
 	Bundle bundle;
 	HttpClient httpclient;
 	HttpGet getmethod;
-	String Depturl = "http://api.prof4prof.info/depts";
+	String Depturl = "http://api.prof4prof.info/depts?school=國立臺灣大學";
 	HttpResponse response;
 	String[] prodept;
 	Thread getDepts;

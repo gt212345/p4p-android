@@ -48,11 +48,15 @@ import android.widget.Toast;
 
 public class MainActivity extends Activity {
 	boolean getPros;
+	boolean getCount;
 	JSONArray jarray;
+	JSONArray jCountarray;
 	List<String> proDeptList;
 	String currentID;
 	Thread client;
 	Socket socket;
+	String Countid;
+	String proCountUrl = "http://api.prof4prof.info/depts/prof_count?school=國立臺灣大學";
 	String proUrl = "http://api.prof4prof.info/professors?dept_id=";
 	HttpClient httpclient;
 	HttpGet getmethod;
@@ -69,7 +73,6 @@ public class MainActivity extends Activity {
 	private CharSequence mTitle;
 
 	// slide menu items
-	private String[] navMenuTitles;
 	private TypedArray navMenuIcons;
 	private ArrayList<NavDrawerItem> navDrawerItems;
 	private NavDrawerListAdapter adapter;
@@ -97,33 +100,21 @@ public class MainActivity extends Activity {
 
 		mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 		mDrawerList = (ListView) findViewById(R.id.list_slidermenu);
-
+		new Thread(getProsCount).start();
 		navDrawerItems = new ArrayList<NavDrawerItem>();
-
-		// adding nav drawer items to array
-		// Home
+		while (true) {
+			if (getCount) {
+				break;
+			}
+		}
 		for (int i = 0; i < proDeptList.size(); i++) {
-			navDrawerItems.add(new NavDrawerItem(proDeptList.get(i)));
-			// // Find People
-			// navDrawerItems.add(new NavDrawerItem(navMenuTitles[1],
-			// navMenuIcons
-			// .getResourceId(1, -1)));
-			// // Photos
-			// navDrawerItems.add(new NavDrawerItem(navMenuTitles[2],
-			// navMenuIcons
-			// .getResourceId(2, -1)));
-			// // Communities, Will add a counter here
-			// navDrawerItems.add(new NavDrawerItem(navMenuTitles[3],
-			// navMenuIcons
-			// .getResourceId(3, -1), true, "22"));
-			// // Pages
-			// navDrawerItems.add(new NavDrawerItem(navMenuTitles[4],
-			// navMenuIcons
-			// .getResourceId(4, -1)));
-			// // What's hot, We will add a counter here
-			// navDrawerItems.add(new NavDrawerItem(navMenuTitles[5],
-			// navMenuIcons
-			// .getResourceId(5, -1), true, "50+"));
+			try {
+				navDrawerItems.add(new NavDrawerItem(proDeptList.get(i), true,
+						jCountarray.getJSONObject(i).getString(String.valueOf(i+1))));
+			} catch (JSONException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 
 		// Recycle the typed array
@@ -293,6 +284,59 @@ public class MainActivity extends Activity {
 				String json = reader.readLine();
 				jarray = new JSONArray(json);
 				getPros = true;
+			} catch (ClientProtocolException e) {
+				// TODO Auto-generated catch block
+				runOnUiThread(new Runnable() {
+
+					@Override
+					public void run() {
+						// TODO Auto-generated method stub
+						Toast.makeText(getApplication(),
+								"ClientProtocol error", Toast.LENGTH_SHORT)
+								.show();
+					}
+				});
+				e.printStackTrace();
+			} catch (IOException e) {
+				runOnUiThread(new Runnable() {
+
+					@Override
+					public void run() {
+						// TODO Auto-generated method stub
+						Toast.makeText(getApplication(), "IO error",
+								Toast.LENGTH_SHORT).show();
+					}
+				});
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (JSONException e) {
+				runOnUiThread(new Runnable() {
+
+					@Override
+					public void run() {
+						// TODO Auto-generated method stub
+						Toast.makeText(getApplication(), "JSON error",
+								Toast.LENGTH_SHORT).show();
+					}
+				});
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+	};
+	Runnable getProsCount = new Runnable() {
+		@Override
+		public void run() {
+			httpclient = new DefaultHttpClient();
+			getmethod = new HttpGet(proCountUrl);
+			try {
+				response = httpclient.execute(getmethod);
+				BufferedReader reader = new BufferedReader(
+						new InputStreamReader(
+								response.getEntity().getContent(), "UTF-8"));
+				String json = reader.readLine();
+				jCountarray = new JSONArray(json);
+				getCount = true;
 			} catch (ClientProtocolException e) {
 				// TODO Auto-generated catch block
 				runOnUiThread(new Runnable() {
