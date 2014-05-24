@@ -58,13 +58,12 @@ public class MainActivity extends Activity {
 	HttpGet getmethod;
 	HttpResponse response;
 	InputStream is;
-	Bundle bundle;
 	private DrawerLayout mDrawerLayout;
 	private ListView mDrawerList;
 	private ActionBarDrawerToggle mDrawerToggle;
 
 	// nav drawer title
-	private CharSequence mDrawerTitle;
+	private CharSequence mDrawerTitle = "選擇系所";
 
 	// used to store app title
 	private CharSequence mTitle;
@@ -82,7 +81,7 @@ public class MainActivity extends Activity {
 		setContentView(R.layout.activity_main);
 		// client = new Thread(clientSocket);
 		// client.start();
-		mTitle = mDrawerTitle = getTitle();
+		mTitle = getTitle();
 		// load slide menu items
 		Bundle bundle = new Bundle();
 		bundle = this.getIntent().getExtras();
@@ -225,7 +224,7 @@ public class MainActivity extends Activity {
 			break;
 		case 1:
 			fragment = new ProfessorsModelFragment();
-			bundle = new Bundle();
+			Bundle bundle = new Bundle();
 			currentID = id.get(position);
 			new Thread(getProfessors).start();
 			while (true) {

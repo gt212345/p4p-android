@@ -18,7 +18,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 public class ProfessorsModelFragment extends Fragment {
@@ -32,36 +31,43 @@ public class ProfessorsModelFragment extends Fragment {
 	String[] prosName;
 	String[] prosOcu;
 	int id;
+	ListView proList;
 
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onActivityCreated(savedInstanceState);
-		ListView proList = (ListView) getActivity().findViewById(R.id.proList);
-		String prosjson = getArguments().getString("pros");
+		proList = (ListView) getActivity().findViewById(R.id.proList);
+
+	}
+
+	@Override
+	public View onCreateView(LayoutInflater inflater, ViewGroup container,
+			Bundle savedInstanceState) {
+		View rootView = inflater.inflate(R.layout.fragment_professors,
+				container, false);
+		return rootView;
+	}
+
+	@Override
+	public void onResume() {
+		// TODO Auto-generated method stub
+		super.onResume();
 		try {
+			String prosjson = getArguments().getString("pros");
 			JSONArray jarray = new JSONArray(prosjson);
 			prosName = new String[jarray.length()];
 			prosOcu = new String[jarray.length()];
 			for (int i = 0; i < jarray.length(); i++) {
 				prosName[i] = jarray.getJSONObject(i).getString("name");
 				prosOcu[i] = jarray.getJSONObject(i).getString("title");
+				Log.w("title", jarray.getJSONObject(i).getString("title"));
 			}
 		} catch (JSONException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		proList.setAdapter(new ProsListAdapter(getActivity(), prosName, prosOcu));
-	}
-
-	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-			Bundle savedInstanceState) {
-
-		View rootView = inflater.inflate(R.layout.fragment_professors,
-				container, false);
-
-		return rootView;
 	}
 
 }

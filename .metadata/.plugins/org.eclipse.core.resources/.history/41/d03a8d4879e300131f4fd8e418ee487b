@@ -1,0 +1,67 @@
+package p4p.android.fragments;
+
+import info.androidhive.slidingmenu.R;
+
+import java.io.InputStream;
+import java.net.Socket;
+
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
+import org.json.JSONArray;
+import org.json.JSONException;
+
+import p4p.android.adapter.ProsListAdapter;
+import android.app.Fragment;
+import android.os.Bundle;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
+
+public class ProfessorsModelFragment extends Fragment {
+	Thread client;
+	Socket socket;
+	String url = "http://prof4prof.info";
+	HttpClient httpclient;
+	HttpGet getmethod;
+	HttpResponse response;
+	InputStream is;
+	String[] prosName;
+	String[] prosOcu;
+	int id;
+
+	@Override
+	public void onActivityCreated(Bundle savedInstanceState) {
+		// TODO Auto-generated method stub
+		super.onActivityCreated(savedInstanceState);
+		ListView proList = (ListView) getActivity().findViewById(R.id.proList);
+		String prosjson = getArguments().getString("pros");
+		try {
+			JSONArray jarray = new JSONArray(prosjson);
+			prosName = new String[jarray.length()];
+			prosOcu = new String[jarray.length()];
+			for (int i = 0; i < jarray.length(); i++) {
+				prosName[i] = jarray.getJSONObject(i).getString("name");
+				prosOcu[i] = jarray.getJSONObject(i).getString("title");
+			}
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		proList.setAdapter(new ProsListAdapter(getActivity(), prosName, prosOcu));
+	}
+
+	@Override
+	public View onCreateView(LayoutInflater inflater, ViewGroup container,
+			Bundle savedInstanceState) {
+
+		View rootView = inflater.inflate(R.layout.fragment_professors,
+				container, false);
+
+		return rootView;
+	}
+
+}
