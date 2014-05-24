@@ -12,7 +12,6 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.json.JSONArray;
 import org.json.JSONException;
 
-import info.androidhive.slidingmenu.MainActivity;
 import info.androidhive.slidingmenu.R;
 import android.app.Activity;
 import android.content.Intent;
@@ -32,14 +31,15 @@ public class WelcomeActivity extends Activity {
 	String Depturl = "http://api.prof4prof.info/depts";
 	HttpResponse response;
 	String[] prodept;
-
 	Thread getDepts;
+	ArrayList<String> id;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_welcome);
+		id = new ArrayList<String>();
 		getDepts = new Thread(getDeptsR);
 		getDepts.start();
 		Timer timer = new Timer(true);
@@ -50,6 +50,13 @@ public class WelcomeActivity extends Activity {
 		for (int i = 0; i < str.length; i++) {
 			bundle.putString("pro" + String.valueOf(i), str[i]);
 			Log.w("put", str[i]);
+		}
+	}
+
+	void putarraystringarray(Bundle bundle, ArrayList<String> str) {
+		for (int i = 0; i < str.size(); i++) {
+			bundle.putString("id" + String.valueOf(i), str.get(i));
+			Log.w("put", str.get(i));
 		}
 	}
 
@@ -68,18 +75,12 @@ public class WelcomeActivity extends Activity {
 								response.getEntity().getContent(), "UTF-8"));
 				String json = reader.readLine();
 				JSONArray jarray = new JSONArray(json);
-				// List<String> proDeptList = new ArrayList<String>();
 				prodept = new String[jarray.length()];
 				for (int i = 0; i < jarray.length(); i++) {
 					prodept[i] = jarray.getJSONObject(i).getString("name");
-					// proDeptList.add(jarray.getJSONObject(i).getString("name"));
+					id.add(jarray.getJSONObject(i).getString("id"));
 					Log.w("string", prodept[i]);
 				}
-				// for (String eashDept : proDeptList) {
-				// Log.w("pro list item: ", eashDept);
-				// }
-				// for (int i = 0; i < prodept.length; i++) {
-				// Log.w("pro", prodept[i]);}
 			} catch (ClientProtocolException e) {
 				// TODO Auto-generated catch block
 				runOnUiThread(new Runnable() {
@@ -130,10 +131,11 @@ public class WelcomeActivity extends Activity {
 				int length = prodept.length;
 				bundle.putInt("length", length);
 				putstringarray(bundle, prodept);
+				putarraystringarray(bundle, id);
 				it.setClass(WelcomeActivity.this, MainActivity.class);
 				it.putExtras(bundle);
 				startActivity(it);
-				this.cancel();//Fuck u timertask
+				this.cancel();// Fuck u timertask
 				WelcomeActivity.this.finish();
 			}
 		}

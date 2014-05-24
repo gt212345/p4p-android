@@ -8,3 +8,7 @@
 1400947437874	Rename type 'FindPeopleFragment'
 1400947589546	Rename resource 'fragment_home.xml'
 1400947848798	Rename resource 'fragment_find_people.xml'
+1400954342866	Move compilation unit
+1400954362662	Rename package 'info.androidhive.slidingmenu'
+1400954392132	Rename package 'info.androidhive.slidingmenu.adapter'
+1400954419277	Rename package 'info.androidhive.slidingmenu.model'

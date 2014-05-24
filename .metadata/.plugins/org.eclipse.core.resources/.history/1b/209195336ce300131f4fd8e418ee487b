@@ -1,0 +1,62 @@
+package info.androidhive.slidingmenu;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.InetSocketAddress;
+import java.net.Socket;
+
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import android.app.Fragment;
+import android.os.Bundle;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Toast;
+
+import org.json.*;
+
+public class ProfessorsModelFragment extends Fragment {
+	Thread client;
+	Socket socket;
+	String url = "http://prof4prof.info";
+	HttpClient httpclient;
+	HttpGet getmethod;
+	HttpResponse response;
+	InputStream is;
+	int id;
+
+	@Override
+	public void onActivityCreated(Bundle savedInstanceState) {
+		// TODO Auto-generated method stub
+		super.onActivityCreated(savedInstanceState);
+		String jarray = getArguments().getString("pros");
+		try {
+			JSONObject joj = new JSONObject(jarray);
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		Log.w("pros",jarray);
+	}
+
+	@Override
+	public View onCreateView(LayoutInflater inflater, ViewGroup container,
+			Bundle savedInstanceState) {
+
+		View rootView = inflater.inflate(R.layout.fragment_professors,
+				container, false);
+
+		return rootView;
+	}
+
+}
