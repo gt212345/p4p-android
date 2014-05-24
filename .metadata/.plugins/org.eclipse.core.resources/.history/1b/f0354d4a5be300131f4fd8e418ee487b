@@ -133,7 +133,7 @@ public class WelcomeActivity extends Activity {
 				it.setClass(WelcomeActivity.this, MainActivity.class);
 				it.putExtras(bundle);
 				startActivity(it);
-				this.cancel();//Fuck u timertask
+				this.cancel();
 				WelcomeActivity.this.finish();
 			}
 		}

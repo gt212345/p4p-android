@@ -4,3 +4,6 @@
 1400912567866	Delete element
 1400912590742	Delete element
 1400912613106	Rename package 'com.example.p4p_android.dummy'
+1400947345543	Rename type 'HomeFragment'
+1400947437874	Rename type 'FindPeopleFragment'
+1400947589546	Rename resource 'fragment_home.xml'

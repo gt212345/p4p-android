@@ -210,7 +210,7 @@ public class MainActivity extends Activity {
 			fragment = new WelcomeFragment();
 			break;
 		case 1:
-			fragment = new ProfessorsModelFragment();
+			fragment = new WelcomeFragment();
 			break;
 		default:
 			break;
