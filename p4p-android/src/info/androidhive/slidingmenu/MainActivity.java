@@ -43,7 +43,7 @@ public class MainActivity extends Activity {
 	HttpGet getmethod;
 	HttpResponse response;
 	InputStream is;
-	String[] prodept = { "1", "2", "3", "4", "5", "6" };
+	String[] prodept = null;
 	private DrawerLayout mDrawerLayout;
 	private ListView mDrawerList;
 	private ActionBarDrawerToggle mDrawerToggle;
@@ -68,11 +68,14 @@ public class MainActivity extends Activity {
 		client = new Thread(clientSocket);
 		client.start();
 		Log.w("client", "start");
-		mTitle = mDrawerTitle = getTitle();//
-		getActionBar().setHomeButtonEnabled(false);
+		while (prodept.length == 0 || prodept == null) {
+			if(prodept.length != 0){
+				break;
+			}
+		}
+		mTitle = mDrawerTitle = getTitle();
 		// load slide menu items
 		navMenuTitles = prodept;// 系所
-
 		// nav drawer icons from resources
 		navMenuIcons = getResources()
 				.obtainTypedArray(R.array.nav_drawer_icons);
@@ -266,6 +269,7 @@ public class MainActivity extends Activity {
 			getmethod = new HttpGet(Depturl);
 			try {
 				response = httpclient.execute(getmethod);
+				Log.w("client", "Get Request");
 				BufferedReader reader = new BufferedReader(
 						new InputStreamReader(
 								response.getEntity().getContent(), "UTF-8"));
@@ -273,9 +277,8 @@ public class MainActivity extends Activity {
 				JSONArray jarray = new JSONArray(json);
 				for (int i = 0; i < jarray.length(); i++) {
 					prodept[i] = jarray.getString(i);
+					Log.w("string", prodept[i]);
 				}
-				navMenuTitles = prodept;
-				getActionBar().setHomeButtonEnabled(true);
 			} catch (ClientProtocolException e) {
 				// TODO Auto-generated catch block
 				runOnUiThread(new Runnable() {
@@ -295,9 +298,8 @@ public class MainActivity extends Activity {
 					@Override
 					public void run() {
 						// TODO Auto-generated method stub
-						Toast.makeText(getApplication(),
-								"IO error", Toast.LENGTH_SHORT)
-								.show();
+						Toast.makeText(getApplication(), "IO error",
+								Toast.LENGTH_SHORT).show();
 					}
 				});
 				// TODO Auto-generated catch block
@@ -308,9 +310,8 @@ public class MainActivity extends Activity {
 					@Override
 					public void run() {
 						// TODO Auto-generated method stub
-						Toast.makeText(getApplication(),
-								"JSON error", Toast.LENGTH_SHORT)
-								.show();
+						Toast.makeText(getApplication(), "JSON error",
+								Toast.LENGTH_SHORT).show();
 					}
 				});
 				// TODO Auto-generated catch block

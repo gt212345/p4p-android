@@ -1,0 +1,33 @@
+package p4p.android.Activities;
+
+import java.util.TimerTask;
+
+import info.androidhive.slidingmenu.MainActivity;
+import info.androidhive.slidingmenu.R;
+import android.app.Activity;
+import android.content.Intent;
+import android.os.Bundle;
+
+public class WelcomeActivity extends Activity {
+
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		// TODO Auto-generated method stub
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.activity_welcome);
+		Timer timer = new Timer(true);
+        timer.schedule(new timerTask(), 3000, 2000);
+	}
+	public class timerTask extends TimerTask{
+		 
+        public void run()
+        {
+            Intent it = new Intent();
+            it.setClass(WelcomeActivity.this, MainActivity.class);
+            startActivity(it);
+            this.cancel();
+            WelcomeActivity.this.finish();
+        }
+    }
+
+}
