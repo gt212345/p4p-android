@@ -3,8 +3,6 @@ package p4p.android.Activities;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.Timer;
-import java.util.TimerTask;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
@@ -22,40 +20,66 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
 
+import java.util.List;
+import java.util.ArrayList;
+import java.util.Timer;
+import java.util.TimerTask;
+
 public class WelcomeActivity extends Activity {
+	Bundle bundle;
 	HttpClient httpclient;
 	HttpGet getmethod;
 	String Depturl = "http://api.prof4prof.info/depts";
 	HttpResponse response;
-	String [] prodept;
+	String[] prodept;
+
+	Thread getDepts;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_welcome);
+		getDepts = new Thread(getDeptsR);
+		getDepts.start();
 		Timer timer = new Timer(true);
 		timer.schedule(new timerTask(), 3000, 2000);
 	}
 
-	public class timerTask extends TimerTask {
+	void putstringarray(Bundle bundle, String[] str) {
+		for (int i = 0; i < str.length; i++) {
+			bundle.putString("pro" + String.valueOf(i), str[i]);
+			Log.w("put", str[i]);
+		}
+	}
 
+	Runnable getDeptsR = new Runnable() {
+
+		@Override
 		public void run() {
-
+			// TODO Auto-generated method stub
 			httpclient = new DefaultHttpClient();
 			getmethod = new HttpGet(Depturl);
 			try {
 				response = httpclient.execute(getmethod);
-				Log.w("client", "Get Request");
+				Log.w("Welcome", "Get Request");
 				BufferedReader reader = new BufferedReader(
 						new InputStreamReader(
 								response.getEntity().getContent(), "UTF-8"));
 				String json = reader.readLine();
 				JSONArray jarray = new JSONArray(json);
+				// List<String> proDeptList = new ArrayList<String>();
+				prodept = new String[jarray.length()];
 				for (int i = 0; i < jarray.length(); i++) {
 					prodept[i] = jarray.getJSONObject(i).getString("name");
+					// proDeptList.add(jarray.getJSONObject(i).getString("name"));
 					Log.w("string", prodept[i]);
 				}
+				// for (String eashDept : proDeptList) {
+				// Log.w("pro list item: ", eashDept);
+				// }
+				// for (int i = 0; i < prodept.length; i++) {
+				// Log.w("pro", prodept[i]);}
 			} catch (ClientProtocolException e) {
 				// TODO Auto-generated catch block
 				runOnUiThread(new Runnable() {
@@ -94,12 +118,23 @@ public class WelcomeActivity extends Activity {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			Intent it = new Intent();
-			it.putExtra("depts", prodept);
-			it.setClass(WelcomeActivity.this, MainActivity.class);
-			startActivity(it);
-			this.cancel();
-			WelcomeActivity.this.finish();
+		}
+	};
+
+	public class timerTask extends TimerTask {
+
+		public void run() {
+			if (prodept != null) {
+				Intent it = new Intent();
+				bundle = new Bundle();
+				int length = prodept.length;
+				bundle.putInt("length", length);
+				putstringarray(bundle, prodept);
+				it.setClass(WelcomeActivity.this, MainActivity.class);
+				it.putExtras(bundle);
+				startActivity(it);
+				WelcomeActivity.this.finish();
+			}
 		}
 	}
 

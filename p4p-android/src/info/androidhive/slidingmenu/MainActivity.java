@@ -9,6 +9,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
@@ -22,6 +23,7 @@ import org.json.JSONException;
 import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.content.res.TypedArray;
 import android.os.Bundle;
@@ -36,6 +38,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 public class MainActivity extends Activity {
+	List<String> proDeptList;
 	Thread client;
 	Socket socket;
 	String Depturl = "http://api.prof4prof.info/depts";
@@ -43,7 +46,6 @@ public class MainActivity extends Activity {
 	HttpGet getmethod;
 	HttpResponse response;
 	InputStream is;
-	String[] prodept = null;
 	private DrawerLayout mDrawerLayout;
 	private ListView mDrawerList;
 	private ActionBarDrawerToggle mDrawerToggle;
@@ -65,17 +67,16 @@ public class MainActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-		client = new Thread(clientSocket);
-		client.start();
-		Log.w("client", "start");
-		while (prodept.length == 0 || prodept == null) {
-			if(prodept.length != 0){
-				break;
-			}
-		}
+		// client = new Thread(clientSocket);
+		// client.start();
 		mTitle = mDrawerTitle = getTitle();
 		// load slide menu items
-		navMenuTitles = prodept;// 系所
+		Bundle bundle = new Bundle();
+		bundle = this.getIntent().getExtras();
+		proDeptList = new ArrayList<String>();
+		for (int i = 0; i < bundle.getInt("length"); i++) {
+			proDeptList.add(bundle.getString("pro" + String.valueOf(i)));
+		}
 		// nav drawer icons from resources
 		navMenuIcons = getResources()
 				.obtainTypedArray(R.array.nav_drawer_icons);
@@ -87,23 +88,29 @@ public class MainActivity extends Activity {
 
 		// adding nav drawer items to array
 		// Home
-		navDrawerItems.add(new NavDrawerItem(navMenuTitles[0], navMenuIcons
-				.getResourceId(0, -1)));
-		// Find People
-		navDrawerItems.add(new NavDrawerItem(navMenuTitles[1], navMenuIcons
-				.getResourceId(1, -1)));
-		// Photos
-		navDrawerItems.add(new NavDrawerItem(navMenuTitles[2], navMenuIcons
-				.getResourceId(2, -1)));
-		// Communities, Will add a counter here
-		navDrawerItems.add(new NavDrawerItem(navMenuTitles[3], navMenuIcons
-				.getResourceId(3, -1), true, "22"));
-		// Pages
-		navDrawerItems.add(new NavDrawerItem(navMenuTitles[4], navMenuIcons
-				.getResourceId(4, -1)));
-		// What's hot, We will add a counter here
-		navDrawerItems.add(new NavDrawerItem(navMenuTitles[5], navMenuIcons
-				.getResourceId(5, -1), true, "50+"));
+		for (int i = 0; i < proDeptList.size(); i++) {
+			navDrawerItems.add(new NavDrawerItem(proDeptList.get(i)));
+			// // Find People
+			// navDrawerItems.add(new NavDrawerItem(navMenuTitles[1],
+			// navMenuIcons
+			// .getResourceId(1, -1)));
+			// // Photos
+			// navDrawerItems.add(new NavDrawerItem(navMenuTitles[2],
+			// navMenuIcons
+			// .getResourceId(2, -1)));
+			// // Communities, Will add a counter here
+			// navDrawerItems.add(new NavDrawerItem(navMenuTitles[3],
+			// navMenuIcons
+			// .getResourceId(3, -1), true, "22"));
+			// // Pages
+			// navDrawerItems.add(new NavDrawerItem(navMenuTitles[4],
+			// navMenuIcons
+			// .getResourceId(4, -1)));
+			// // What's hot, We will add a counter here
+			// navDrawerItems.add(new NavDrawerItem(navMenuTitles[5],
+			// navMenuIcons
+			// .getResourceId(5, -1), true, "50+"));
+		}
 
 		// Recycle the typed array
 		navMenuIcons.recycle();
@@ -229,7 +236,7 @@ public class MainActivity extends Activity {
 			// update selected item and title, then close the drawer
 			mDrawerList.setItemChecked(position, true);
 			mDrawerList.setSelection(position);
-			setTitle(navMenuTitles[position]);
+			setTitle(proDeptList.get(position));
 			mDrawerLayout.closeDrawer(mDrawerList);
 		} else {
 			// error in creating fragment
@@ -262,61 +269,61 @@ public class MainActivity extends Activity {
 		mDrawerToggle.onConfigurationChanged(newConfig);
 	}
 
-	Runnable clientSocket = new Runnable() {
-		@Override
-		public void run() {
-			httpclient = new DefaultHttpClient();
-			getmethod = new HttpGet(Depturl);
-			try {
-				response = httpclient.execute(getmethod);
-				Log.w("client", "Get Request");
-				BufferedReader reader = new BufferedReader(
-						new InputStreamReader(
-								response.getEntity().getContent(), "UTF-8"));
-				String json = reader.readLine();
-				JSONArray jarray = new JSONArray(json);
-				for (int i = 0; i < jarray.length(); i++) {
-					prodept[i] = jarray.getString(i);
-					Log.w("string", prodept[i]);
-				}
-			} catch (ClientProtocolException e) {
-				// TODO Auto-generated catch block
-				runOnUiThread(new Runnable() {
-
-					@Override
-					public void run() {
-						// TODO Auto-generated method stub
-						Toast.makeText(getApplication(),
-								"ClientProtocol error", Toast.LENGTH_SHORT)
-								.show();
-					}
-				});
-				e.printStackTrace();
-			} catch (IOException e) {
-				runOnUiThread(new Runnable() {
-
-					@Override
-					public void run() {
-						// TODO Auto-generated method stub
-						Toast.makeText(getApplication(), "IO error",
-								Toast.LENGTH_SHORT).show();
-					}
-				});
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (JSONException e) {
-				runOnUiThread(new Runnable() {
-
-					@Override
-					public void run() {
-						// TODO Auto-generated method stub
-						Toast.makeText(getApplication(), "JSON error",
-								Toast.LENGTH_SHORT).show();
-					}
-				});
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
-	};
+	// Runnable clientSocket = new Runnable() {
+	// @Override
+	// public void run() {
+	// httpclient = new DefaultHttpClient();
+	// getmethod = new HttpGet(Depturl);
+	// try {
+	// response = httpclient.execute(getmethod);
+	// Log.w("client", "Get Request");
+	// BufferedReader reader = new BufferedReader(
+	// new InputStreamReader(
+	// response.getEntity().getContent(), "UTF-8"));
+	// String json = reader.readLine();
+	// JSONArray jarray = new JSONArray(json);
+	// for (int i = 0; i < jarray.length(); i++) {
+	// prodept[i] = jarray.getString(i);
+	// Log.w("string", prodept[i]);
+	// }
+	// } catch (ClientProtocolException e) {
+	// // TODO Auto-generated catch block
+	// runOnUiThread(new Runnable() {
+	//
+	// @Override
+	// public void run() {
+	// // TODO Auto-generated method stub
+	// Toast.makeText(getApplication(),
+	// "ClientProtocol error", Toast.LENGTH_SHORT)
+	// .show();
+	// }
+	// });
+	// e.printStackTrace();
+	// } catch (IOException e) {
+	// runOnUiThread(new Runnable() {
+	//
+	// @Override
+	// public void run() {
+	// // TODO Auto-generated method stub
+	// Toast.makeText(getApplication(), "IO error",
+	// Toast.LENGTH_SHORT).show();
+	// }
+	// });
+	// // TODO Auto-generated catch block
+	// e.printStackTrace();
+	// } catch (JSONException e) {
+	// runOnUiThread(new Runnable() {
+	//
+	// @Override
+	// public void run() {
+	// // TODO Auto-generated method stub
+	// Toast.makeText(getApplication(), "JSON error",
+	// Toast.LENGTH_SHORT).show();
+	// }
+	// });
+	// // TODO Auto-generated catch block
+	// e.printStackTrace();
+	// }
+	// }
+	// };
 }
