@@ -11,10 +11,8 @@ import org.apache.http.client.methods.HttpGet;
 import org.json.JSONArray;
 import org.json.JSONException;
 
-import p4p.android.adapter.ProsListAdapter;
 import android.app.Fragment;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -41,17 +39,10 @@ public class ProfessorsModelFragment extends Fragment {
 		String prosjson = getArguments().getString("pros");
 		try {
 			JSONArray jarray = new JSONArray(prosjson);
-			prosName = new String[jarray.length()];
-			prosOcu = new String[jarray.length()];
-			for (int i = 0; i < jarray.length(); i++) {
-				prosName[i] = jarray.getJSONObject(i).getString("name");
-				prosOcu[i] = jarray.getJSONObject(i).getString("title");
-			}
 		} catch (JSONException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		proList.setAdapter(new ProsListAdapter(getActivity(), prosName, prosOcu));
 	}
 
 	@Override

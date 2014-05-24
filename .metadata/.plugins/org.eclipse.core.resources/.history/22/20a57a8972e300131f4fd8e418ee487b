@@ -1,0 +1,57 @@
+package p4p.android.adapter;
+
+import info.androidhive.slidingmenu.R;
+import android.app.Activity;
+import android.content.Context;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.BaseAdapter;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+public class ProsListAdapter extends BaseAdapter {
+	private String[] prosName;
+	private String[] prosOcu;
+	Context context;
+
+	public ProsListAdapter(Context context, String[] prosName, String[] prosOcu) {
+		this.context = context;
+		this.prosName = prosName;
+		this.prosOcu = prosOcu;
+	}
+
+	@Override
+	public int getCount() {
+		// TODO Auto-generated method stub
+		return prosName.length;
+	}
+
+	@Override
+	public Object getItem(int position) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public long getItemId(int position) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public View getView(int position, View convertView, ViewGroup parent) {
+		// TODO Auto-generated method stub
+		if (convertView == null) {
+			LayoutInflater mInflater = (LayoutInflater) context
+					.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
+			convertView = mInflater.inflate(R.layout.pros_list_item, null);
+		}
+
+		TextView txtprosName = (TextView) convertView
+				.findViewById(R.id.ProsName);
+		txtprosName.setText(prosName[position]);
+		TextView txtprosOcu = (TextView) convertView.findViewById(R.id.ProsOcu);
+		return convertView;
+	}
+}

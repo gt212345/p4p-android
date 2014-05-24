@@ -11,7 +11,6 @@ import org.apache.http.client.methods.HttpGet;
 import org.json.JSONArray;
 import org.json.JSONException;
 
-import p4p.android.adapter.ProsListAdapter;
 import android.app.Fragment;
 import android.os.Bundle;
 import android.util.Log;
@@ -51,7 +50,6 @@ public class ProfessorsModelFragment extends Fragment {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		proList.setAdapter(new ProsListAdapter(getActivity(), prosName, prosOcu));
 	}
 
 	@Override

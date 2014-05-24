@@ -1,0 +1,39 @@
+package p4p.android.adapter;
+
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.BaseAdapter;
+
+public class ProsListAdapter extends BaseAdapter {
+	private String[] prosName;
+	private String[] prosOcu;
+	public ProsListAdapter(String[] prosName,String[] prosOcu){
+		this.prosName = prosName;
+		this.prosOcu = prosOcu;
+	}
+
+	@Override
+	public int getCount() {
+		// TODO Auto-generated method stub
+		return prosName.length;
+	}
+
+	@Override
+	public Object getItem(int position) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public long getItemId(int position) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public View getView(int position, View convertView, ViewGroup parent) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+}
