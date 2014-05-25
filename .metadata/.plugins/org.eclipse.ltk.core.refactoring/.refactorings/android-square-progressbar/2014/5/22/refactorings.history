@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Move package &apos;net.yscs.android.square_progressbar&apos; to &apos;p4p-android/src&apos;&#x0A;- Original project: &apos;android-square-progressbar&apos;&#x0A;- Destination element: &apos;p4p-android/src&apos;&#x0A;- Original element: &apos;android-square-progressbar/src/net.yscs.android.square_progressbar&apos;&#x0A;- Update references to refactored element" description="Move package" destination="=p4p-android/src" element1="/src&lt;net.yscs.android.square_progressbar" flags="589830" fragments="1" id="org.eclipse.jdt.ui.move" policy="org.eclipse.jdt.ui.movePackages" stamp="1400986463153" version="1.0"/>
+</session>

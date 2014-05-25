@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring accessors="true" comment="Delete element from project &apos;p4p-android&apos;&#x0A;- Original project: &apos;p4p-android&apos;&#x0A;- Original element: &apos;p4p-android/src/net.yscs.android.square_progressbar&apos;" description="Delete element" element1="/src&lt;net.yscs.android.square_progressbar" element2="/src&lt;net.yscs.android" element3="/src&lt;net.yscs" element4="/src&lt;net" elements="4" flags="589830" id="org.eclipse.jdt.ui.delete" resources="0" stamp="1400986489734" subPackages="false" version="1.0"/>
+</session>

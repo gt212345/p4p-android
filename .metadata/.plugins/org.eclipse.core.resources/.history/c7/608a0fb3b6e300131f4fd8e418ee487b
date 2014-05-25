@@ -17,4 +17,13 @@
         android:textSize="30dp"
         android:textStyle="italic|bold" />
 
+    <net.yscs.android.square_progressbar.SquareProgressBar
+        android:id="@+id/subi"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:paddingTop="20dp" >
+    </net.yscs.android.square_progressbar.SquareProgressBar>
+
 </RelativeLayout>
