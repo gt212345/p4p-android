@@ -80,6 +80,7 @@ public class ProfessorsModelFragment extends Fragment {
 				// TODO Auto-generated method stub
 				Intent browse = new Intent(Intent.ACTION_VIEW, Uri
 						.parse("http://prof4prof.info/#professor/NrjuQc9D0L"));
+
 				startActivity(browse);
 			}
 		});
