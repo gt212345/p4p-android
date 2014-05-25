@@ -8,7 +8,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="0.50"
-        android:textSize="25dp"
+        android:textSize="30dp"
         android:textStyle="bold"
         android:text="教授名稱" />
 
@@ -18,7 +18,7 @@
         android:layout_height="wrap_content"
         android:layout_weight="0.50"
         android:textSize="20dp"
-        android:textStyle="italic"
+        android:textStyle="italic|bold"
         android:text="教授職稱" />
 
 </LinearLayout>

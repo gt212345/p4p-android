@@ -109,13 +109,11 @@ public class MainActivity extends Activity {
 		}
 		for (int i = 0; i < proDeptList.size(); i++) {
 			try {
-				if (i<3) {
+				if (jCountarray.getJSONObject(i).getString(
+						String.valueOf(i + 1)) != null) {
 					navDrawerItems.add(new NavDrawerItem(proDeptList.get(i),
 							true, jCountarray.getJSONObject(i).getString(
 									String.valueOf(i + 1))));
-				} else {
-					navDrawerItems.add(new NavDrawerItem(proDeptList.get(i),
-							true, String.valueOf(0)));
 				}
 			} catch (JSONException e) {
 				// TODO Auto-generated catch block
@@ -240,6 +238,7 @@ public class MainActivity extends Activity {
 			FragmentManager fragmentManager = getFragmentManager();
 			fragmentManager.beginTransaction()
 					.replace(R.id.frame_container, fragment).commit();
+
 			// update selected item and title, then close the drawer
 			mDrawerList.setItemChecked(position, true);
 			mDrawerList.setSelection(position);

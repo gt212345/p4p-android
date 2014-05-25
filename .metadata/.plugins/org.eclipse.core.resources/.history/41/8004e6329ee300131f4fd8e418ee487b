@@ -80,7 +80,6 @@ public class WelcomeActivity extends Activity {
 					prodept[i] = jarray.getJSONObject(i).getString("name");
 					id.add(jarray.getJSONObject(i).getString("id"));
 					Log.w("string", prodept[i]);
-					Log.w("id",id.get(i));
 				}
 			} catch (ClientProtocolException e) {
 				// TODO Auto-generated catch block
