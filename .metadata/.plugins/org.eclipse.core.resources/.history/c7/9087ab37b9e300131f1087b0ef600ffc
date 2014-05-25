@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/logo"
+    android:orientation="vertical" >
+
+    <TextView
+        android:id="@+id/loadingtext"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:text="Loading Data......."
+        android:textColor="#FFFFFFFF"
+        android:textSize="30dp"
+        android:textStyle="italic|bold" />
+
+    <net.yscs.android.square_progressbar.SquareProgressBar
+        android:id="@+id/subi"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:paddingTop="20dp" >
+    </net.yscs.android.square_progressbar.SquareProgressBar>
+
+</RelativeLayout>

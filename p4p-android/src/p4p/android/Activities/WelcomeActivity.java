@@ -4,6 +4,8 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
+import net.yscs.android.square_progressbar.SquareProgressBar;
+
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
@@ -13,9 +15,11 @@ import org.json.JSONArray;
 import org.json.JSONException;
 
 import info.androidhive.slidingmenu.R;
+import info.androidhive.slidingmenu.R.color;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -33,12 +37,75 @@ public class WelcomeActivity extends Activity {
 	String[] prodept;
 	Thread getDepts;
 	ArrayList<String> id;
+	SquareProgressBar squareProgressBar;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_welcome);
+		squareProgressBar = (SquareProgressBar) findViewById(R.id.subi);
+		squareProgressBar.setImage(R.drawable.ic_launcher);
+		squareProgressBar.setColorRGB(100, 150, 200);
+		squareProgressBar.setProgress(16);
+		squareProgressBar.setWidth(4);
+		squareProgressBar.setOpacity(false);
+		Handler handler = new Handler();
+		handler.postDelayed(new Runnable() {
+			public void run() {
+				squareProgressBar.setProgress(32);
+			}
+		}, 1000);
+		handler.postDelayed(new Runnable() {
+			public void run() {
+				squareProgressBar.setProgress(37);
+			}
+		}, 1100);
+		handler.postDelayed(new Runnable() {
+			public void run() {
+				squareProgressBar.setProgress(40);
+			}
+		}, 1200);
+		handler.postDelayed(new Runnable() {
+			public void run() {
+				squareProgressBar.setProgress(43);
+			}
+		}, 1350);
+		handler.postDelayed(new Runnable() {
+			public void run() {
+				squareProgressBar.setProgress(48);
+			}
+		}, 1500);
+		handler.postDelayed(new Runnable() {
+			public void run() {
+				squareProgressBar.setProgress(54);
+			}
+		}, 1600);
+		handler.postDelayed(new Runnable() {
+			public void run() {
+				squareProgressBar.setProgress(60);
+			}
+		}, 1800);
+		handler.postDelayed(new Runnable() {
+			public void run() {
+				squareProgressBar.setProgress(64);
+			}
+		}, 2000);
+		handler.postDelayed(new Runnable() {
+			public void run() {
+				squareProgressBar.setProgress(70);
+			}
+		}, 2200);
+		handler.postDelayed(new Runnable() {
+			public void run() {
+				squareProgressBar.setProgress(82);
+			}
+		}, 2500);
+		handler.postDelayed(new Runnable() {
+			public void run() {
+				squareProgressBar.setProgress(100);
+			}
+		}, 3000);
 		id = new ArrayList<String>();
 		getDepts = new Thread(getDeptsR);
 		getDepts.start();
@@ -80,7 +147,7 @@ public class WelcomeActivity extends Activity {
 					prodept[i] = jarray.getJSONObject(i).getString("name");
 					id.add(jarray.getJSONObject(i).getString("id"));
 					Log.w("string", prodept[i]);
-					Log.w("id",id.get(i));
+					Log.w("id", id.get(i));
 				}
 			} catch (ClientProtocolException e) {
 				// TODO Auto-generated catch block
